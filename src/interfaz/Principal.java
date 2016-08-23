@@ -17,6 +17,7 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    double v[];
     public Principal() {
         initComponents();
     }
@@ -45,6 +46,8 @@ public class Principal extends javax.swing.JFrame {
         txtResultado = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 153, 255));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos iniciales"));
@@ -84,18 +87,38 @@ public class Principal extends javax.swing.JFrame {
 
         cmdLlenadoManual.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         cmdLlenadoManual.setText("Llenado manual");
+        cmdLlenadoManual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdLlenadoManualActionPerformed(evt);
+            }
+        });
         jPanel2.add(cmdLlenadoManual, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         cmdLlenadoAutomatico.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         cmdLlenadoAutomatico.setText("Llenado automático");
+        cmdLlenadoAutomatico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdLlenadoAutomaticoActionPerformed(evt);
+            }
+        });
         jPanel2.add(cmdLlenadoAutomatico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
         cmdMostrar.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         cmdMostrar.setText("Mostrar");
+        cmdMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdMostrarActionPerformed(evt);
+            }
+        });
         jPanel2.add(cmdMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         cmdBorrar.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         cmdBorrar.setText("Borrar");
+        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdBorrarActionPerformed(evt);
+            }
+        });
         jPanel2.add(cmdBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 180, 180));
@@ -117,13 +140,18 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCrearActionPerformed
+       int longitud;
        if(txtLongitud.getText().trim().isEmpty()){
            JOptionPane.showMessageDialog(this,"Digite la longitud", "Error", JOptionPane.ERROR_MESSAGE);
            txtLongitud.requestFocusInWindow();
-       } else if(txtLongitud.getText().trim().equals("0")){
+       } else if(Integer.parseInt(txtLongitud.getText().trim())==0) {
            JOptionPane.showMessageDialog(this, "La longitud no puede ser cero", "Error", JOptionPane.ERROR_MESSAGE);
            txtLongitud.requestFocusInWindow();
            txtLongitud.selectAll();
+       } else {
+           longitud = Integer.parseInt(txtLongitud.getText().trim());
+           v = new double[longitud];
+           JOptionPane.showMessageDialog(this, "Vector creado exitosamente");
        }
     }//GEN-LAST:event_cmdCrearActionPerformed
 
@@ -133,7 +161,40 @@ public class Principal extends javax.swing.JFrame {
               getToolkit().beep(); 
               evt.consume(); 
           } 
+         
+          
     }//GEN-LAST:event_txtLongitudKeyTyped
+
+    private void cmdLlenadoManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLlenadoManualActionPerformed
+        double n;
+        for (int i = 0; i < v.length; i++) {
+            n = Double.parseDouble(JOptionPane.showInputDialog(this, "Digite el elemento en la pocición: "+i));
+            v[i]=n;
+        }
+    }//GEN-LAST:event_cmdLlenadoManualActionPerformed
+
+    private void cmdMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMostrarActionPerformed
+        for (int i = 0; i < v.length; i++) {
+           txtResultado.append(v[i]+"\n");
+            
+        }
+    }//GEN-LAST:event_cmdMostrarActionPerformed
+
+    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+        txtLongitud.setText("");
+        txtResultado.setText("");
+        v = null;
+        txtLongitud.requestFocusInWindow();
+    }//GEN-LAST:event_cmdBorrarActionPerformed
+
+    private void cmdLlenadoAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLlenadoAutomaticoActionPerformed
+        double n;
+        for (int i = 0; i < v.length; i++) {
+            n = (int)(Math.random()*50 + 1);
+            v[i]=n;
+        }
+        JOptionPane.showMessageDialog(this, "Vector llenado correctamente");
+    }//GEN-LAST:event_cmdLlenadoAutomaticoActionPerformed
 
     /**
      * @param args the command line arguments
